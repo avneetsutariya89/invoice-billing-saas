@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Billzer - Professional Invoice & Billing Management",
+  title: "NexyBill - Professional Invoice & Billing Management",
   description: "Streamline your invoicing with our enterprise-grade billing platform. Create professional invoices, manage clients, and track payments.",
 };
 

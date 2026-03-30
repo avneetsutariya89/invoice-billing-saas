@@ -6,36 +6,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
+import HeadComponent from "@/components/layout/head";
 import { 
-  ArrowLeft, 
+  HomeIcon, 
   Users, 
   Calculator, 
-  Trash2, 
-  Plus, 
-  History, 
-  ArrowRight, 
-  DollarSign, 
   TrendingUp, 
-  CheckCircle, 
-  Gift, 
-  HomeIcon, 
-  Car, 
-  PartyPopper, 
-  Lock, 
-  Shield, 
-  X, 
-  Menu, 
-  Zap, 
-  Heart, 
-  Clock, 
+  History, 
   FileText, 
   Mail, 
   MessageSquare, 
   Twitter, 
   Facebook, 
   Instagram, 
-  Linkedin, 
-  Star
+  Linkedin,
+  Star,
+  Lock,
+  Shield,
+  X,
+  Menu,
+  Zap,
+  Heart,
+  Plus,
+  ArrowRight,
+  DollarSign,
+  CheckCircle,
+  Gift,
+  Car,
+  PartyPopper,
+  Clock,
+  Trash2
 } from "lucide-react";
 
 interface PersonSpent {
@@ -293,6 +293,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-white">
+      <HeadComponent />
       <style jsx>{`
         @keyframes scroll {
           0% {
@@ -316,18 +317,17 @@ export default function HomePage() {
                 <div className="absolute inset-0 bg-blue-600 rounded-xl blur-sm opacity-20 group-hover:opacity-30 transition-opacity"></div>
                 <div className="relative bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
                   <div className="flex flex-col items-center justify-center">
-                    <div className="w-6 h-0.5 bg-white rounded-full mb-1"></div>
-                    <div className="flex items-center space-x-2">
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
-                      <div className="w-0.5 h-3 bg-white rounded-full"></div>
-                      <div className="w-2 h-2 bg-white rounded-full"></div>
+                    {/* Simple split design */}
+                    <div className="flex items-center space-x-1">
+                      <div className="w-3 h-3 bg-white rounded-full"></div>
+                      <div className="w-1 h-1 bg-white rounded-full"></div>
+                      <div className="w-3 h-3 bg-white rounded-full"></div>
                     </div>
-                    <div className="w-6 h-0.5 bg-white rounded-full mt-1"></div>
                   </div>
                 </div>
               </div>
               <span className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-blue-800 transition-all duration-300">
-                Splitly
+                NexyBill
               </span>
             </Link>
             
@@ -398,7 +398,7 @@ export default function HomePage() {
                       </div>
                     </div>
                     <span className="text-lg font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-                      Splitly
+                      NexyBill
                     </span>
                   </div>
                   <button
@@ -993,19 +993,18 @@ export default function HomePage() {
               {/* Brand Section */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-3">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                  <div className="relative bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-xl shadow-lg">
                     <div className="flex flex-col items-center justify-center">
-                      <div className="w-6 h-0.5 bg-white rounded-full mb-1"></div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
-                        <div className="w-0.5 h-3 bg-white rounded-full"></div>
-                        <div className="w-2 h-2 bg-white rounded-full"></div>
+                      {/* Simple split design */}
+                      <div className="flex items-center space-x-1">
+                        <div className="w-3 h-3 bg-white rounded-full"></div>
+                        <div className="w-1 h-1 bg-white rounded-full"></div>
+                        <div className="w-3 h-3 bg-white rounded-full"></div>
                       </div>
-                      <div className="w-6 h-0.5 bg-white rounded-full mt-1"></div>
                     </div>
                   </div>
                   <span className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-300 bg-clip-text text-transparent">
-                    Splitly
+                    NexyBill
                   </span>
                 </div>
                 <p className="text-gray-300 leading-relaxed">
@@ -1101,7 +1100,7 @@ export default function HomePage() {
               <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
                 <div className="text-center md:text-left">
                   <p className="text-gray-400">
-                    © 2024 Splitly. All rights reserved.
+                    © 2026 NexyBill. All rights reserved.
                   </p>
                   <div className="flex items-center justify-center md:justify-start space-x-4 mt-2 text-sm text-gray-400">
                     <Link href="/privacy" className="hover:text-white transition-colors">Privacy</Link>

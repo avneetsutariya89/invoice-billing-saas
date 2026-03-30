@@ -30,7 +30,7 @@ export default function TermsPage() {
                 </div>
               </div>
               <span className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-blue-800 transition-all duration-300">
-                Splitly
+                NexyBill
               </span>
             </Link>
             
@@ -112,7 +112,7 @@ export default function TermsPage() {
               Terms of Service
             </h1>
             <p className="text-gray-600 text-lg">
-              Welcome to Splitly - please read our terms carefully
+              Welcome to NexyBill - please read our terms carefully
             </p>
           </div>
 
@@ -124,11 +124,11 @@ export default function TermsPage() {
                 Acceptance of Terms
               </h2>
               <div className="space-y-4 text-gray-700">
-                <p>By using Splitly, you agree to these terms:</p>
+                <p>By using NexyBill, you agree to these terms:</p>
                 <ul className="list-disc list-inside ml-6 space-y-2">
                   <li>You must be at least 18 years old to use this service</li>
                   <li>You are responsible for the accuracy of your bill calculations</li>
-                  <li>Splitly is not liable for any financial disputes between parties</li>
+                  <li>NexyBill is not liable for any financial disputes between parties</li>
                   <li>You may not use this service for illegal activities</li>
                 </ul>
               </div>
@@ -140,7 +140,7 @@ export default function TermsPage() {
                 Service Description
               </h2>
               <div className="space-y-4 text-gray-700">
-                <p>Splitly provides bill splitting calculation services:</p>
+                <p>NexyBill provides bill splitting calculation services:</p>
                 <ul className="list-disc list-inside ml-6 space-y-2">
                   <li>Free basic bill splitting calculations</li>
                   <li>Storage of calculation history</li>
@@ -156,7 +156,7 @@ export default function TermsPage() {
                 Limitations
               </h2>
               <div className="space-y-4 text-gray-700">
-                <p>Splitly service limitations:</p>
+                <p>NexyBill service limitations:</p>
                 <ul className="list-disc list-inside ml-6 space-y-2">
                   <li>Not responsible for rounding errors in calculations</li>
                   <li>Service availability depends on internet connection</li>
@@ -228,7 +228,7 @@ export default function TermsPage() {
                 <Link href="/contact" className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                   Contact Support
                 </Link>
-                <Link href="mailto:legal@splitly.com" className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+                <Link href="mailto:legal@NexyBill.com" className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
                   Email Legal Team
                 </Link>
               </div>

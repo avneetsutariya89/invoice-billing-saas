@@ -30,7 +30,7 @@ export default function PrivacyPage() {
                 </div>
               </div>
               <span className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-blue-800 transition-all duration-300">
-                Splitly
+                NexyBill
               </span>
             </Link>
             
@@ -194,7 +194,7 @@ export default function PrivacyPage() {
                 <Link href="/contact" className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
                   Contact Support
                 </Link>
-                <Link href="mailto:privacy@splitly.com" className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+                <Link href="mailto:privacy@NexyBill.com" className="border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
                   Email Us
                 </Link>
               </div>

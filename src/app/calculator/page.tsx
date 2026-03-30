@@ -248,12 +248,24 @@ export default function CalculatorPage() {
               </div>
             </Link>
             <div className="flex items-center space-x-3">
-              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-2 rounded-lg shadow-lg">
-                <Calculator className="w-6 h-6 text-white" />
-              </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                Bill Split Calculator
-              </h1>
+              <Link href="/" className="flex items-center group">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-blue-600 rounded-xl blur-sm opacity-20 group-hover:opacity-30 transition-opacity"></div>
+                  <div className="relative bg-gradient-to-br from-blue-500 to-blue-600 p-3 rounded-xl shadow-lg group-hover:shadow-xl transition-all duration-300 group-hover:scale-105">
+                    <div className="flex flex-col items-center justify-center">
+                      {/* Simple split design */}
+                      <div className="flex items-center space-x-1">
+                        <div className="w-3 h-3 bg-white rounded-full"></div>
+                        <div className="w-1 h-1 bg-white rounded-full"></div>
+                        <div className="w-3 h-3 bg-white rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <span className="ml-3 text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent group-hover:from-blue-700 group-hover:to-blue-800 transition-all duration-300">
+                  NexyBill
+                </span>
+              </Link>
             </div>
             <div className="w-32"></div>
           </div>
