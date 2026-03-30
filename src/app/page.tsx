@@ -21,12 +21,12 @@ import {
   HomeIcon, 
   Car, 
   PartyPopper, 
-  Heart, 
-  Zap, 
-  Menu, 
-  X, 
-  Star, 
+  Lock, 
   Shield, 
+  X, 
+  Menu, 
+  Zap, 
+  Heart, 
   Clock, 
   FileText, 
   Mail, 
@@ -34,7 +34,8 @@ import {
   Twitter, 
   Facebook, 
   Instagram, 
-  Linkedin 
+  Linkedin, 
+  Star
 } from "lucide-react";
 
 interface PersonSpent {
@@ -415,6 +416,8 @@ export default function HomePage() {
                     { href: "/history", label: "History", icon: History },
                     { href: "/blog", label: "Blog", icon: FileText },
                     { href: "/contact", label: "Contact", icon: Mail },
+                    { href: "/privacy", label: "Privacy", icon: Shield },
+                    { href: "/terms", label: "Terms", icon: Lock },
                   ].map((item) => (
                     <Link
                       key={item.href}
