@@ -24,10 +24,53 @@ export default function HistoryPage() {
   const [error, setError] = useState("");
   const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [counters, setCounters] = useState({ calculations: 0, totalAmount: 0, transactions: 0, totalPeople: 0 });
+  const [isCounting, setIsCounting] = useState(false);
 
   useEffect(() => {
     fetchCalculations();
   }, []);
+
+  // Auto-counting animation for stats
+  useEffect(() => {
+    const calculateStats = () => {
+      const calculations = filteredHistory.length;
+      const totalAmount = filteredHistory.reduce((sum: number, entry: HistoryEntry) => sum + entry.totalSpent, 0);
+      const transactions = filteredHistory.reduce((sum: number, entry: HistoryEntry) => sum + entry.settlements.length, 0);
+      const totalPeople = filteredHistory.reduce((sum: number, entry: HistoryEntry) => sum + entry.people.length, 0);
+      
+      return { calculations, totalAmount, transactions, totalPeople };
+    };
+
+    const targetValues = calculateStats();
+    const duration = 2000; // 2 seconds
+    const steps = 60;
+    const increment = {
+      calculations: targetValues.calculations / steps,
+      totalAmount: targetValues.totalAmount / steps,
+      transactions: targetValues.transactions / steps,
+      totalPeople: targetValues.totalPeople / steps
+    };
+
+    let currentStep = 0;
+    const timer = setInterval(() => {
+      currentStep++;
+      setCounters({
+        calculations: Math.min(Math.floor(increment.calculations * currentStep), targetValues.calculations),
+        totalAmount: Math.min(increment.totalAmount * currentStep, targetValues.totalAmount),
+        transactions: Math.min(Math.floor(increment.transactions * currentStep), targetValues.transactions),
+        totalPeople: Math.min(Math.floor(increment.totalPeople * currentStep), targetValues.totalPeople)
+      });
+
+      if (currentStep >= steps) {
+        clearInterval(timer);
+        setIsCounting(false);
+      }
+    }, duration / steps);
+
+    setIsCounting(true);
+    return () => clearInterval(timer);
+  }, [filteredHistory]);
 
   useEffect(() => {
     applyFilter(selectedFilter);
@@ -292,7 +335,17 @@ export default function HistoryPage() {
               <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Calculator className="w-6 h-6" />
               </div>
-              <div className="text-3xl font-bold mb-2">{filteredHistory.length}</div>
+              <div className="text-3xl font-bold mb-2">
+                {isCounting ? (
+                  <span className="inline-block">
+                    {counters.calculations.toLocaleString()}
+                  </span>
+                ) : (
+                  <span className="inline-block">
+                    {counters.calculations.toLocaleString()}
+                  </span>
+                )}
+              </div>
               <p className="text-blue-100">Calculations</p>
             </CardContent>
           </Card>
@@ -303,7 +356,15 @@ export default function HistoryPage() {
                 <DollarSign className="w-6 h-6" />
               </div>
               <div className="text-3xl font-bold mb-2">
-                ₹{filteredHistory.reduce((sum: number, entry: HistoryEntry) => sum + entry.totalSpent, 0).toFixed(0)}
+                {isCounting ? (
+                  <span className="inline-block">
+                    ₹{Math.floor(counters.totalAmount).toLocaleString()}
+                  </span>
+                ) : (
+                  <span className="inline-block">
+                    ₹{Math.floor(counters.totalAmount).toLocaleString()}
+                  </span>
+                )}
               </div>
               <p className="text-blue-100">Total Amount</p>
             </CardContent>
@@ -315,7 +376,15 @@ export default function HistoryPage() {
                 <TrendingUp className="w-6 h-6" />
               </div>
               <div className="text-3xl font-bold mb-2">
-                {filteredHistory.reduce((sum: number, entry: HistoryEntry) => sum + entry.settlements.length, 0)}
+                {isCounting ? (
+                  <span className="inline-block">
+                    {counters.transactions.toLocaleString()}
+                  </span>
+                ) : (
+                  <span className="inline-block">
+                    {counters.transactions.toLocaleString()}
+                  </span>
+                )}
               </div>
               <p className="text-blue-100">Transactions</p>
             </CardContent>
@@ -327,7 +396,15 @@ export default function HistoryPage() {
                 <Users className="w-6 h-6" />
               </div>
               <div className="text-3xl font-bold mb-2">
-                {filteredHistory.reduce((sum: number, entry: HistoryEntry) => sum + entry.people.length, 0)}
+                {isCounting ? (
+                  <span className="inline-block">
+                    {counters.totalPeople.toLocaleString()}
+                  </span>
+                ) : (
+                  <span className="inline-block">
+                    {counters.totalPeople.toLocaleString()}
+                  </span>
+                )}
               </div>
               <p className="text-blue-100">Total People</p>
             </CardContent>

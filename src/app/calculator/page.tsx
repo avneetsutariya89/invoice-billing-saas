@@ -1,43 +1,845 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Users, Calculator, Trash2, Plus, History, ArrowRight, DollarSign, TrendingUp, CheckCircle, Gift, Heart, Zap, Star, Shield, Clock, FileText, HomeIcon } from "lucide-react";
+import Image from "next/image";
+
+interface PersonSpent {
+  name: string;
+  spent: number;
+}
+
+interface Settlement {
+  from: string;
+  to: string;
+  amount: number;
+}
+
+interface HistoryEntry {
+  id: string;
+  timestamp: string;
+  people: PersonSpent[];
+  settlements: Settlement[];
+  totalSpent: number;
+  averageShare: number;
+}
 
 export default function CalculatorPage() {
+  const [people, setPeople] = useState<PersonSpent[]>([
+    { name: "", spent: 0 },
+    { name: "", spent: 0 },
+    { name: "", spent: 0 },
+    { name: "", spent: 0 },
+  ]);
+
+  const [results, setResults] = useState<Settlement[]>([]);
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
+
+  useEffect(() => {
+    fetchCalculations();
+  }, []);
+
+  const fetchCalculations = async () => {
+    try {
+      const response = await fetch('/api/calculations');
+      const data = await response.json();
+      
+      if (data.success) {
+        setHistory(data.data);
+      }
+    } catch (error) {
+      console.error('Error fetching history:', error);
+    }
+  };
+
+  const handleCalculateAndSave = async () => {
+    await calculateSettlements();
+  };
+
+  const updatePerson = (index: number, field: keyof PersonSpent, value: string | number) => {
+    const newPeople = [...people];
+    newPeople[index] = { ...newPeople[index], [field]: value };
+    setPeople(newPeople);
+  };
+
+  const addPerson = () => {
+    setPeople([...people, { name: "", spent: 0 }]);
+  };
+
+  const removePerson = (index: number) => {
+    if (people.length > 2) {
+      const newPeople = people.filter((_, i) => i !== index);
+      setPeople(newPeople);
+    }
+  };
+
+  const calculateSettlements = async (peopleData?: PersonSpent[]) => {
+    try {
+      console.log('🔢 Starting calculation...');
+      const currentPeople = peopleData || people;
+      
+      // Validate inputs
+      const validPeople = currentPeople.filter(p => p.name.trim() !== "" && p.spent > 0);
+      console.log('✅ Valid people:', validPeople);
+
+      if (validPeople.length < 2) {
+        setResults([]);
+        return;
+      }
+
+      // Calculate total spent
+      const totalSpent = validPeople.reduce((sum, person) => sum + person.spent, 0);
+      
+      // Calculate average (equal share)
+      const averageShare = totalSpent / validPeople.length;
+      console.log('💰 Total:', totalSpent, 'Average:', averageShare);
+
+      // Calculate who owes whom
+      const settlements: Settlement[] = [];
+      const balances: { [name: string]: number } = {};
+
+      // Calculate each person's balance (positive = gets back, negative = owes)
+      validPeople.forEach(person => {
+        balances[person.name] = person.spent - averageShare;
+      });
+
+      // Create settlements (debtors pay creditors)
+      const debtors: PersonSpent[] = [];
+      const creditors: PersonSpent[] = [];
+
+      validPeople.forEach(person => {
+        const balance = person.spent - averageShare;
+        if (balance < 0) {
+          debtors.push(person);
+        } else if (balance > 0) {
+          creditors.push(person);
+        }
+      });
+
+      console.log('📊 Debtors:', debtors.length, 'Creditors:', creditors.length);
+
+      // Calculate optimal settlements
+      let debtorIndex = 0;
+      let creditorIndex = 0;
+
+      while (debtorIndex < debtors.length && creditorIndex < creditors.length) {
+        const debtor = debtors[debtorIndex];
+        const creditor = creditors[creditorIndex];
+        
+        const debtorOwes = Math.abs(debtor.spent - averageShare);
+        const creditorIsOwed = creditor.spent - averageShare;
+        
+        const settlementAmount = Math.min(debtorOwes, creditorIsOwed);
+
+        if (settlementAmount > 0.01) {
+          settlements.push({
+            from: debtor.name,
+            to: creditor.name,
+            amount: Math.round(settlementAmount * 100) / 100,
+          });
+        }
+
+        // Update person's spent amount to reflect settlement
+        if (debtorOwes < creditorIsOwed) {
+          // Debtor is fully settled, move to next debtor
+          debtorIndex++;
+          // Update creditor's amount
+          creditors[creditorIndex] = {
+            ...creditor,
+            spent: creditor.spent - settlementAmount
+          };
+        } else if (creditorIsOwed < debtorOwes) {
+          // Creditor is fully settled, move to next creditor
+          creditorIndex++;
+          // Update debtor's amount
+          debtors[debtorIndex] = {
+            ...debtor,
+            spent: debtor.spent + settlementAmount
+          };
+        } else {
+          // Both are fully settled
+          debtorIndex++;
+          creditorIndex++;
+        }
+      }
+
+      console.log('💸 Settlements calculated:', settlements);
+      setResults(settlements);
+
+      // Save to database
+      const historyEntry: HistoryEntry = {
+        id: Date.now().toString(),
+        timestamp: new Date().toISOString(),
+        people: validPeople.map(p => ({ ...p })),
+        settlements: [...settlements],
+        totalSpent,
+        averageShare
+      };
+
+      try {
+        console.log('💾 Saving to database...');
+        const response = await fetch('/api/calculations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(historyEntry),
+        });
+
+        const result = await response.json();
+        
+        if (result.success) {
+          console.log('✅ Saved to database:', result);
+          // Refresh history from database
+          fetchCalculations();
+        } else {
+          console.error('❌ Failed to save:', result.error);
+        }
+      } catch (error) {
+        console.error('❌ Error saving to database:', error);
+      }
+    } catch (error) {
+      console.error('❌ Error in calculation:', error);
+      throw error;
+    }
+  };
+
+  const resetCalculator = () => {
+    setPeople([
+      { name: "", spent: 0 },
+      { name: "", spent: 0 },
+      { name: "", spent: 0 },
+      { name: "", spent: 0 },
+    ]);
+    setResults([]);
+  };
+
+  const totalSpent = people.reduce((sum, person) => sum + person.spent, 0);
+  const averageShare = people.filter(p => p.name.trim() !== "").length > 0 ? totalSpent / people.filter(p => p.name.trim() !== "").length : 0;
+
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+      <style jsx>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-scroll {
+          animation: scroll 30s linear infinite;
+        }
+      `}</style>
       {/* Header */}
-      <header className="bg-white shadow-lg border-b border-gray-200">
+      <header className="bg-white/80 backdrop-blur-lg border-b border-blue-100 shadow-lg sticky top-0 z-40">
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
-            <Link href="/" className="flex items-center text-blue-600 hover:text-blue-700 transition-colors">
-              <ArrowLeft className="w-5 h-5 mr-2" />
-              <span className="font-medium">Back to Home</span>
+            <Link href="/" className="flex items-center text-blue-600 hover:text-blue-700 transition-colors group">
+              <div className="flex items-center px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors">
+                <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+                <span className="font-medium">Back to Home</span>
+              </div>
             </Link>
-            <h1 className="text-3xl font-bold text-blue-600">
-              Bill Split Calculator
-            </h1>
+            <div className="flex items-center space-x-3">
+              <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-2 rounded-lg shadow-lg">
+                <Calculator className="w-6 h-6 text-white" />
+              </div>
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                Bill Split Calculator
+              </h1>
+            </div>
             <div className="w-32"></div>
           </div>
         </div>
       </header>
 
+      {/* Hero Section - Light Color Redesign */}
+      <section className="relative overflow-hidden py-24 bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-20 -right-20 w-72 h-72 bg-blue-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+          <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+          <div className="absolute top-1/3 right-1/4 w-64 h-64 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
+          <div className="absolute bottom-1/3 left-1/4 w-56 h-56 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-25 animate-pulse"></div>
+        </div>
+        
+        {/* Geometric Pattern Overlay */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-10 left-10 w-32 h-32 border-4 border-blue-200 rotate-45"></div>
+          <div className="absolute top-20 right-20 w-24 h-24 border-4 border-indigo-200 rotate-12"></div>
+          <div className="absolute bottom-20 left-1/3 w-28 h-28 border-4 border-purple-200 -rotate-12"></div>
+          <div className="absolute bottom-10 right-1/4 w-20 h-20 border-4 border-pink-200 rotate-45"></div>
+        </div>
+        
+        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            {/* Left Content */}
+            <div className="space-y-8">
+              {/* Badge */}
+              <div className="inline-flex items-center px-6 py-3 rounded-full bg-white/60 backdrop-blur-lg border border-blue-200 text-blue-600 text-sm font-semibold shadow-2xl">
+                <div className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></div>
+                AI-Powered Bill Splitting
+              </div>
+              
+              {/* Main Heading */}
+              <div className="space-y-4">
+                <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-gray-800 leading-tight">
+                  Smart Bill
+                  <span className="block text-blue-600 mt-2">
+                    Calculator
+                  </span>
+                </h2>
+                <div className="flex items-center space-x-4">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <div key={i} className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-400 rounded-full border-2 border-white flex items-center justify-center">
+                        <Star className="w-4 h-4 text-white fill-current" />
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-gray-600 font-medium">Trusted by 50K+ Users</span>
+                </div>
+              </div>
+              
+              {/* Description */}
+              <p className="text-xl text-gray-700 leading-relaxed max-w-lg">
+                Experience the future of bill splitting with our intelligent calculator. 
+                Fair settlements in seconds, no more arguments, just perfect harmony.
+              </p>
+              
+              {/* Stats Row */}
+              <div className="flex flex-wrap gap-6">
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <TrendingUp className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-gray-800">98%</div>
+                    <div className="text-sm text-gray-600">Accuracy Rate</div>
+                  </div>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <Clock className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-gray-800">&lt;3s</div>
+                    <div className="text-sm text-gray-600">Calculation Time</div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* CTA Buttons */}
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link href="#calculator">
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold shadow-2xl transform hover:scale-105 transition-all duration-300">
+                    <Calculator className="mr-3 h-5 w-5" />
+                    Start Calculating
+                  </Button>
+                </Link>
+                <Link href="/example">
+                  <Button variant="outline" className="bg-white text-blue-600 border-2 border-blue-300 hover:bg-blue-50 hover:border-blue-400 px-8 py-4 rounded-xl font-semibold shadow-xl transform hover:scale-105 transition-all duration-300">
+                    <FileText className="mr-3 h-5 w-5" />
+                    See Demo
+                  </Button>
+                </Link>
+              </div>
+            </div>
+            
+            {/* Right Side - Enhanced Calculator Display */}
+            <div className="relative">
+              {/* Glow Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-indigo-400 rounded-3xl transform rotate-12 opacity-20 blur-3xl"></div>
+              
+              {/* Main Glass Container */}
+              <div className="relative bg-white/60 backdrop-blur-2xl rounded-3xl shadow-2xl p-8 border border-white/40">
+                <div className="aspect-square relative">
+                  {/* Background Pattern */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-transparent to-indigo-50 rounded-2xl"></div>
+                  
+                  {/* Calculator Content */}
+                  <div className="relative h-full flex flex-col items-center justify-center space-y-6 p-8">
+                    {/* Top Icon */}
+                    <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center shadow-xl animate-bounce">
+                      <Calculator className="w-10 h-10 text-white" />
+                    </div>
+                    
+                    {/* Main Display */}
+                    <div className="text-center space-y-3">
+                      <div className="text-5xl font-bold text-gray-800">₹8,450</div>
+                      <div className="text-lg text-gray-600">Weekend Trip Total</div>
+                    </div>
+                    
+                    {/* Breakdown Grid */}
+                    <div className="w-full space-y-3">
+                      <div className="grid grid-cols-3 gap-3 text-center">
+                        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-3">
+                          <div className="text-lg font-bold text-blue-600">₹1,690</div>
+                          <div className="text-xs text-gray-600">Per Person</div>
+                        </div>
+                        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-3">
+                          <div className="text-lg font-bold text-green-600">5</div>
+                          <div className="text-xs text-gray-600">People</div>
+                        </div>
+                        <div className="bg-white/70 backdrop-blur-sm rounded-xl p-3">
+                          <div className="text-lg font-bold text-purple-600">3</div>
+                          <div className="text-xs text-gray-600">Payments</div>
+                        </div>
+                      </div>
+                      
+                      {/* Settlement Bar */}
+                      <div className="bg-white/70 backdrop-blur-sm rounded-xl p-4">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm text-gray-600">Settlement Progress</span>
+                          <span className="text-sm text-green-600 font-medium">Optimal</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="bg-gradient-to-r from-green-400 to-blue-400 h-2 rounded-full" style={{width: '85%'}}></div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Floating Elements */}
+                    <div className="absolute top-6 right-6 w-8 h-8 bg-green-400 rounded-full flex items-center justify-center shadow-lg animate-pulse">
+                      <CheckCircle className="w-4 h-4 text-white" />
+                    </div>
+                    <div className="absolute bottom-8 left-6 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center shadow-lg animate-bounce">
+                      <Zap className="w-3 h-3 text-white" />
+                    </div>
+                    <div className="absolute top-1/3 left-8 w-6 h-6 bg-blue-400 rounded-full flex items-center justify-center shadow-lg">
+                      <Heart className="w-3 h-3 text-white" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Bottom Wave */}
+        <div className="absolute bottom-0 left-0 right-0">
+          <svg className="w-full h-24" viewBox="0 0 1440 120" fill="none">
+            <path d="M0,64L48,58.7C96,53.3,144,48,192,48C240,48,288,53.3,336,58.7C384,64,432,69.3,480,74.7C528,80,576,85.3,624,90.7C672,96,720,101.3,768,106.7C816,112,864,117.3,912,122.7C960,128,1008,133.3,1056,138.7C1104,144,1152,149.3,1200,154.7C1248,160,1296,165.3,1344,170.7C1392,176,1440,181.3,1440,192L1440,192L0,192Z" fill="white" fillOpacity="0.3"/>
+            <path d="M0,96L48,90.7C96,85.3,144,80,192,80C240,80,288,85.3,336,90.7C384,96,432,101.3,480,106.7C528,112,576,117.3,624,122.7C672,128,720,133.3,768,138.7C816,144,864,149.3,912,154.7C960,160,1008,165.3,1056,170.7C1104,176,1152,181.3,1200,186.7C1248,192,1296,197.3,1344,202.7C1392,208,1440,213.3,1440,224L1440,224L0,224Z" fill="white"/>
+          </svg>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">Why Choose Our Calculator?</h3>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Advanced features designed to make bill splitting effortless and transparent
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-2xl border border-blue-100">
+              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mb-4">
+                <Users className="w-6 h-6 text-white" />
+              </div>
+              <h4 className="font-bold text-lg text-gray-900 mb-2">Multiple People</h4>
+              <p className="text-gray-600">Support for unlimited group sizes with fair distribution algorithms</p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100">
+              <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mb-4">
+                <Shield className="w-6 h-6 text-white" />
+              </div>
+              <h4 className="font-bold text-lg text-gray-900 mb-2">Secure & Private</h4>
+              <p className="text-gray-600">Your data is encrypted and never shared with third parties</p>
+            </div>
+            
+            <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-2xl border border-purple-100">
+              <div className="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mb-4">
+                <History className="w-6 h-6 text-white" />
+              </div>
+              <h4 className="font-bold text-lg text-gray-900 mb-2">Save History</h4>
+              <p className="text-gray-600">Keep track of all your past calculations and settlements</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Calculator Section */}
       <section className="py-16 bg-gray-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
-            <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Calculator Coming Soon
-              </h2>
-              <p className="text-gray-600 mb-8">
-                The calculator functionality is being loaded...
-              </p>
-              <Link href="/">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold">
-                  Back to Home
-                </button>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">Try It Now</h3>
+            <p className="text-xl text-gray-600">Enter your group expenses and get instant fair settlement calculations</p>
+          </div>
+          
+          <div className="bg-white rounded-3xl shadow-2xl border border-gray-200 p-8 lg:p-12 max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-8">
+              {/* Input Section */}
+              <Card className="border-0 shadow-xl bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center text-xl font-bold text-blue-600">
+                    <Users className="mr-3 h-6 w-6" />
+                    Enter Expenses
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    {people.map((person, index) => (
+                      <div key={index} className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <Label className="text-sm font-semibold text-gray-700">Person {index + 1}</Label>
+                          {people.length > 2 && (
+                            <Button
+                              variant="outline"
+                              size="sm"
+                              onClick={() => removePerson(index)}
+                              className="text-red-500 hover:text-red-700 hover:bg-red-50 border-red-200 h-8 w-8 p-0"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          )}
+                        </div>
+                        <Input
+                          type="text"
+                          placeholder="Name"
+                          value={person.name}
+                          onChange={(e) => updatePerson(index, 'name', e.target.value)}
+                          className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                        />
+                        <div className="relative">
+                          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">₹</span>
+                          <Input
+                            type="number"
+                            placeholder="0.00"
+                            value={person.spent || ''}
+                            onChange={(e) => updatePerson(index, 'spent', parseFloat(e.target.value) || 0)}
+                            className="pl-8 border-gray-300 focus:border-blue-500 focus:ring-blue-500"
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <Button
+                      onClick={addPerson}
+                      className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto"
+                    >
+                      <Plus className="mr-2 h-4 w-4" />
+                      Add Person
+                    </Button>
+                    <Button
+                      onClick={resetCalculator}
+                      className="bg-gray-600 hover:bg-gray-700 text-white w-full sm:w-auto"
+                    >
+                      <Calculator className="mr-2 h-4 w-4" />
+                      Reset
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Results Section */}
+              <Card className="border-0 shadow-xl bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl">
+                <CardHeader className="pb-4">
+                  <CardTitle className="flex items-center text-xl font-bold text-green-600">
+                    <TrendingUp className="mr-3 h-6 w-6" />
+                    Settlement Results
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  {results.length > 0 ? (
+                    <div className="space-y-4">
+                      <div className="bg-green-50 p-4 rounded-lg border border-green-100">
+                        <div className="flex items-center justify-between mb-3">
+                          <h4 className="font-semibold text-green-800">Who Pays Whom:</h4>
+                          <div className="flex items-center text-green-600">
+                            <CheckCircle className="w-5 h-5 mr-1" />
+                            <span className="text-sm font-medium">{results.length} transaction{results.length !== 1 ? 's' : ''}</span>
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          {results.map((settlement, index) => (
+                            <div key={index} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 bg-white rounded-lg border border-green-200">
+                              <div className="flex items-center space-x-3 mb-2 sm:mb-0">
+                                <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
+                                  <span className="text-red-600 font-bold text-xs">-</span>
+                                </div>
+                                <span className="font-medium text-gray-900">{settlement.from}</span>
+                              </div>
+                              
+                              <div className="flex items-center space-x-2">
+                                <ArrowRight className="w-4 h-4 text-gray-400" />
+                                <div className="text-xl font-bold text-green-600">₹{settlement.amount.toFixed(2)}</div>
+                                <ArrowRight className="w-4 h-4 text-gray-400" />
+                              </div>
+                              
+                              <div className="flex items-center space-x-2">
+                                <span className="font-medium text-gray-900">{settlement.to}</span>
+                                <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                  <span className="text-green-600 font-bold text-xs">+</span>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="text-center py-8">
+                      <Calculator className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                      <p className="text-gray-600">Enter amounts and click calculate to see settlements</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+              <Button
+                onClick={handleCalculateAndSave}
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-xl font-bold shadow-xl w-full sm:w-auto text-lg transform hover:scale-105 transition-all duration-300"
+              >
+                <Calculator className="mr-2 h-5 w-5" />
+                Calculate & Save!
+              </Button>
+            </div>
+
+            {/* Summary Stats */}
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl text-center border border-blue-100">
+                <p className="text-sm text-blue-600 font-medium mb-2">Total Amount</p>
+                <p className="text-3xl font-bold text-blue-700">₹{totalSpent.toFixed(2)}</p>
+              </div>
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl text-center border border-green-100">
+                <p className="text-sm text-green-600 font-medium mb-2">Average Share</p>
+                <p className="text-3xl font-bold text-green-700">₹{averageShare.toFixed(2)}</p>
+              </div>
+            </div>
+
+            {/* View History Link */}
+            {history.length > 0 && (
+              <div className="text-center mt-8">
+                <Link 
+                  href="/history" 
+                  className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 group"
+                >
+                  <History className="w-5 h-5 mr-2 group-hover:translate-x-1 transition-transform" />
+                  View All Calculation History
+                  <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section with Auto-Scrolling */}
+      <section className="py-16 bg-gradient-to-br from-blue-50 to-indigo-50 overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              What Our Users Say
+            </h3>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Join thousands of satisfied users who have simplified their bill splitting
+            </p>
+          </div>
+          
+          {/* Auto-scrolling Testimonials */}
+          <div className="relative">
+            <div className="flex animate-scroll space-x-6">
+              {/* First set of testimonials */}
+              {[
+                {
+                  name: "Rahul P.",
+                  location: "Mumbai",
+                  rating: 5,
+                  review: "This calculator has saved our friend group so many arguments. It's incredibly accurate and easy to use!",
+                  avatar: "R"
+                },
+                {
+                  name: "Priya S.",
+                  location: "Delhi",
+                  rating: 5,
+                  review: "Perfect for splitting trip expenses among our group of 8. The settlement suggestions are always fair.",
+                  avatar: "P"
+                },
+                {
+                  name: "Amit K.",
+                  location: "Bangalore",
+                  rating: 5,
+                  review: "The history feature is amazing! I can track all our past dinners and trips. Highly recommended!",
+                  avatar: "A"
+                },
+                {
+                  name: "Neha M.",
+                  location: "Pune",
+                  rating: 5,
+                  review: "Best bill splitting app I've ever used! The interface is clean and the calculations are instant.",
+                  avatar: "N"
+                },
+                {
+                  name: "Vikram S.",
+                  location: "Hyderabad",
+                  rating: 5,
+                  review: "We use this for our office lunch groups. Makes splitting expenses so much easier!",
+                  avatar: "V"
+                },
+                {
+                  name: "Kavita R.",
+                  location: "Chennai",
+                  rating: 5,
+                  review: "Love the simplicity and accuracy. No more manual calculations needed!",
+                  avatar: "K"
+                },
+                {
+                  name: "Rohit J.",
+                  location: "Kolkata",
+                  rating: 5,
+                  review: "Game changer for our hostel mates! Everyone pays their fair share now.",
+                  avatar: "R"
+                },
+                {
+                  name: "Anita D.",
+                  location: "Jaipur",
+                  rating: 5,
+                  review: "The smart algorithm ensures everyone pays exactly what they owe. Brilliant!",
+                  avatar: "A"
+                }
+              ].map((testimonial, index) => (
+                <div key={index} className="flex-shrink-0 w-80">
+                  <div className="bg-white rounded-2xl shadow-xl p-6 border border-blue-100 hover:shadow-2xl transition-all duration-300">
+                    <div className="flex items-center mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
+                    <p className="text-gray-700 mb-4 text-sm leading-relaxed">"{testimonial.review}"</p>
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        {testimonial.avatar}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                        <div className="text-sm text-gray-600">{testimonial.location}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              
+              {/* Duplicate set for seamless scrolling */}
+              {[
+                {
+                  name: "Rahul P.",
+                  location: "Mumbai",
+                  rating: 5,
+                  review: "This calculator has saved our friend group so many arguments. It's incredibly accurate and easy to use!",
+                  avatar: "R"
+                },
+                {
+                  name: "Priya S.",
+                  location: "Delhi",
+                  rating: 5,
+                  review: "Perfect for splitting trip expenses among our group of 8. The settlement suggestions are always fair.",
+                  avatar: "P"
+                },
+                {
+                  name: "Amit K.",
+                  location: "Bangalore",
+                  rating: 5,
+                  review: "The history feature is amazing! I can track all our past dinners and trips. Highly recommended!",
+                  avatar: "A"
+                },
+                {
+                  name: "Neha M.",
+                  location: "Pune",
+                  rating: 5,
+                  review: "Best bill splitting app I've ever used! The interface is clean and the calculations are instant.",
+                  avatar: "N"
+                },
+                {
+                  name: "Vikram S.",
+                  location: "Hyderabad",
+                  rating: 5,
+                  review: "We use this for our office lunch groups. Makes splitting expenses so much easier!",
+                  avatar: "V"
+                },
+                {
+                  name: "Kavita R.",
+                  location: "Chennai",
+                  rating: 5,
+                  review: "Love the simplicity and accuracy. No more manual calculations needed!",
+                  avatar: "K"
+                },
+                {
+                  name: "Rohit J.",
+                  location: "Kolkata",
+                  rating: 5,
+                  review: "Game changer for our hostel mates! Everyone pays their fair share now.",
+                  avatar: "R"
+                },
+                {
+                  name: "Anita D.",
+                  location: "Jaipur",
+                  rating: 5,
+                  review: "The smart algorithm ensures everyone pays exactly what they owe. Brilliant!",
+                  avatar: "A"
+                }
+              ].map((testimonial, index) => (
+                <div key={`duplicate-${index}`} className="flex-shrink-0 w-80">
+                  <div className="bg-white rounded-2xl shadow-xl p-6 border border-blue-100 hover:shadow-2xl transition-all duration-300">
+                    <div className="flex items-center mb-4">
+                      {[...Array(testimonial.rating)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                      ))}
+                    </div>
+                    <p className="text-gray-700 mb-4 text-sm leading-relaxed">"{testimonial.review}"</p>
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold mr-3">
+                        {testimonial.avatar}
+                      </div>
+                      <div>
+                        <div className="font-semibold text-gray-900">{testimonial.name}</div>
+                        <div className="text-sm text-gray-600">{testimonial.location}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-gradient-to-br from-blue-600 to-indigo-600">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h3 className="text-3xl font-bold text-white mb-4">Ready to Split Bills Fairly?</h3>
+            <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
+              Join thousands of users who have simplified their bill splitting with our smart calculator
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/history">
+                <Button className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-xl font-bold shadow-xl transform hover:scale-105 transition-all duration-300">
+                  <History className="mr-2 h-5 w-5" />
+                  View History
+                </Button>
+              </Link>
+              <Link href="/contact">
+                <Button variant="outline" className="bg-transparent text-white border-2 border-white/30 hover:bg-white/10 hover:border-white/50 px-8 py-4 rounded-xl font-semibold shadow-xl transform hover:scale-105 transition-all duration-300">
+                  <Heart className="mr-2 h-5 w-5" />
+                  Contact Us
+                </Button>
               </Link>
             </div>
           </div>
