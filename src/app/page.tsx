@@ -241,11 +241,12 @@ export default function HomePage() {
             
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-8">
-              <a href="#home" className="text-gray-700 hover:text-blue-600 transition-colors">Home</a>
-              <a href="#features" className="text-gray-700 hover:text-blue-600 transition-colors">Features</a>
-              <a href="#calculator" className="text-gray-700 hover:text-blue-600 transition-colors">Calculator</a>
-              <a href="#history" className="text-gray-700 hover:text-blue-600 transition-colors">History</a>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors">Contact</a>
+              <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors">Home</Link>
+              <Link href="/blog" className="text-gray-700 hover:text-blue-600 transition-colors">Blog</Link>
+              <Link href="/calculator" className="text-gray-700 hover:text-blue-600 transition-colors">Calculator</Link>
+              <Link href="/example" className="text-gray-700 hover:text-blue-600 transition-colors">Example</Link>
+              <Link href="/history" className="text-gray-700 hover:text-blue-600 transition-colors">History</Link>
+              <Link href="/contact" className="text-gray-700 hover:text-blue-600 transition-colors">Contact</Link>
             </nav>
             
             {/* Mobile Menu Button */}
@@ -261,11 +262,12 @@ export default function HomePage() {
           {isMenuOpen && (
             <nav className="md:hidden py-4 border-t">
               <div className="flex flex-col space-y-2">
-                <a href="#home" className="text-gray-700 hover:text-blue-600 transition-colors py-2">Home</a>
-                <a href="#features" className="text-gray-700 hover:text-blue-600 transition-colors py-2">Features</a>
-                <a href="#calculator" className="text-gray-700 hover:text-blue-600 transition-colors py-2">Calculator</a>
-                <a href="#history" className="text-gray-700 hover:text-blue-600 transition-colors py-2">History</a>
-                <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors py-2">Contact</a>
+                <Link href="/" className="text-gray-700 hover:text-blue-600 transition-colors py-2">Home</Link>
+                <Link href="/blog" className="text-gray-700 hover:text-blue-600 transition-colors py-2">Blog</Link>
+                <Link href="/calculator" className="text-gray-700 hover:text-blue-600 transition-colors py-2">Calculator</Link>
+                <Link href="/example" className="text-gray-700 hover:text-blue-600 transition-colors py-2">Example</Link>
+                <Link href="/history" className="text-gray-700 hover:text-blue-600 transition-colors py-2">History</Link>
+                <Link href="/contact" className="text-gray-700 hover:text-blue-600 transition-colors py-2">Contact</Link>
               </div>
             </nav>
           )}
@@ -294,16 +296,16 @@ export default function HomePage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <a href="#calculator">
+              <Link href="/calculator">
                 <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold shadow-xl">
                   Start Calculating
                 </Button>
-              </a>
-              <a href="#features">
+              </Link>
+              <Link href="/blog">
                 <Button variant="outline" className="border-blue-600 text-blue-600 px-8 py-4 rounded-lg font-semibold shadow-xl">
                   Learn More
                 </Button>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -551,14 +553,55 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
         <div className="container mx-auto px-4">
-          <div className="text-center">
-            <p className="text-gray-400 mb-4">
-              © 2024 Bill Split Calculator. All rights reserved.
-            </p>
-            <div className="flex items-center justify-center space-x-2 text-sm text-gray-400">
-              <span>Made with</span>
-              <Heart className="w-4 h-4 text-red-500 fill-current" />
-              <span>for better group experiences</span>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <div className="flex items-center mb-4">
+                <Calculator className="w-8 h-8 text-blue-400 mr-2" />
+                <span className="text-xl font-bold">BillSplit Pro</span>
+              </div>
+              <p className="text-gray-400">
+                The smartest way to split bills with friends and family.
+              </p>
+            </div>
+            
+            <div>
+              <h3 className="font-bold text-lg mb-4">Product</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link href="/calculator" className="hover:text-white transition-colors">Calculator</Link></li>
+                <li><Link href="/example" className="hover:text-white transition-colors">Example</Link></li>
+                <li><Link href="/history" className="hover:text-white transition-colors">History</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="font-bold text-lg mb-4">Company</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+                <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
+                <li><Link href="/blog" className="hover:text-white transition-colors">Blog</Link></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h3 className="font-bold text-lg mb-4">Connect</h3>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white transition-colors">Twitter</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Facebook</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">LinkedIn</a></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center">
+              <p className="text-gray-400 mb-4 md:mb-0">
+                © 2024 BillSplit Pro. All rights reserved.
+              </p>
+              <div className="flex items-center space-x-2 text-sm text-gray-400">
+                <span>Made with</span>
+                <Heart className="w-4 h-4 text-red-500 fill-current" />
+                <span>for better group experiences</span>
+              </div>
             </div>
           </div>
         </div>
