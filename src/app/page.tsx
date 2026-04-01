@@ -77,6 +77,19 @@ export default function HomePage() {
     fetchCalculations();
   }, []);
 
+  // Handle body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
+
   // Auto-counting animation
   useEffect(() => {
     const targetValues = { calculations: 2000000, users: 50000, money: 10000000 };
@@ -381,8 +394,8 @@ export default function HomePage() {
           </div>
           
           {/* Mobile Navigation */}
-          <div className={`lg:hidden fixed inset-0 z-50 bg-white/95 backdrop-blur-lg transition-all duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-            <div className={`fixed top-0 right-0 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div className={`lg:hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-all duration-300 ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+            <div className={`fixed top-0 right-0 h-full w-80 bg-white shadow-2xl transform transition-transform duration-300 ${isMenuOpen ? 'translate-x-0 !z-[99999999999]' : 'translate-x-full'}`}>
               <div className="p-6">
                 <div className="flex justify-between items-center mb-8">
                   <div className="flex items-center space-x-3">
@@ -416,8 +429,6 @@ export default function HomePage() {
                     { href: "/history", label: "History", icon: History },
                     { href: "/blog", label: "Blog", icon: FileText },
                     { href: "/contact", label: "Contact", icon: Mail },
-                    { href: "/privacy", label: "Privacy", icon: Shield },
-                    { href: "/terms", label: "Terms", icon: Lock },
                   ].map((item) => (
                     <Link
                       key={item.href}
@@ -970,24 +981,7 @@ export default function HomePage() {
           <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-blue-700 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse"></div>
         </div>
 
-        {/* Mobile Footer Toggle */}
-        <div className="md:hidden relative z-20">
-          <button
-            onClick={() => setIsFooterOpen(!isFooterOpen)}
-            className="w-full bg-blue-800/50 backdrop-blur-sm border-t border-blue-700/50 py-4 flex items-center justify-center space-x-2 hover:bg-blue-800/70 transition-all duration-300"
-          >
-            <span className="text-sm font-medium">
-              {isFooterOpen ? 'Hide Footer' : 'Show Footer'}
-            </span>
-            <div className={`transform transition-transform duration-300 ${isFooterOpen ? 'rotate-180' : ''}`}>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </div>
-          </button>
-        </div>
-
-        <div className={`relative z-10 transition-all duration-500 ease-in-out ${isFooterOpen ? 'max-h-screen opacity-100' : 'max-h-0 md:max-h-full opacity-0 md:opacity-100 overflow-hidden'}`}>
+        <div className="relative z-10">
           <div className="container mx-auto px-4 py-12">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
               {/* Brand Section */}

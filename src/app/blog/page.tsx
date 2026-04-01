@@ -16,69 +16,135 @@ import {
 const blogPosts = [
   {
     id: 1,
-    title: "How to Split Bills Fairly: A Complete Guide",
-    excerpt: "Learn the best practices for splitting bills in groups, from simple dinners to complex trips. Discover fair methods that keep everyone happy.",
-    author: "Sarah Johnson",
-    date: "March 15, 2024",
-    readTime: "5 min read",
-    category: "Guide",
-    image: "https://picsum.photos/seed/bill-splitting-guide/400/250",
-    slug: "how-to-split-bills-fairly"
+    title: "PM Awas Yojana 2024: Government Housing Assistance",
+    excerpt: "PM Awas Yojana now provides financial assistance up to ₹2.67 lakh for beneficiaries in Gujarat to build their dream homes. Learn how to apply and required documents.",
+    author: "Rajendra Patel",
+    date: "March 25, 2024",
+    readTime: "6 min read",
+    category: "Government Scheme",
+    image: "https://picsum.photos/seed/pm-awas-gujarat/400/250",
+    slug: "pm-awas-yojana-gujarat-2024",
+    likes: 42
   },
   {
     id: 2,
-    title: "5 Common Bill Splitting Mistakes to Avoid",
-    excerpt: "Don't let money ruin your friendships. Learn about the most common mistakes people make when splitting bills and how to avoid them.",
-    author: "Mike Chen",
-    date: "March 10, 2024",
-    readTime: "4 min read",
-    category: "Tips",
-    image: "https://picsum.photos/seed/bill-mistakes/400/250",
-    slug: "common-bill-splitting-mistakes"
+    title: "Benefits: CM Gautami Yojana Gujarat 2024",
+    excerpt: "Gujarat government's Gautami Yojana now provides ₹1 lakh financial assistance and training for rural women's economic empowerment. Complete information and application process.",
+    author: "Anita Desai",
+    date: "March 22, 2024",
+    readTime: "5 min read",
+    category: "Women Empowerment",
+    image: "https://picsum.photos/seed/gautami-yojana-gujarat/400/250",
+    slug: "cm-gautami-yojana-gujarat",
+    likes: 38
   },
   {
     id: 3,
-    title: "The Mathematics Behind Fair Bill Splitting",
-    excerpt: "Ever wondered how our calculator determines who owes whom? Dive into the math behind optimal debt settlement algorithms.",
-    author: "Dr. Emily Brown",
-    date: "March 5, 2024",
-    readTime: "8 min read",
-    category: "Technical",
-    image: "https://picsum.photos/seed/math-bill-splitting/400/250",
-    slug: "mathematics-behind-bill-splitting"
+    title: "Golden Opportunity for Farmers: PM Kisan Samman Nidhi Yojana",
+    excerpt: "PM Kisan Samman Nidhi Yojana now provides direct financial assistance to 12 crore farmers through three installments of ₹6000. Know new updates and benefits.",
+    author: "Dilipbhai Mehta",
+    date: "March 20, 2024",
+    readTime: "7 min read",
+    category: "Agriculture Scheme",
+    image: "https://picsum.photos/seed/pm-kisan-samman/400/250",
+    slug: "pm-kisan-samman-nidhi",
+    likes: 55
   },
   {
     id: 4,
-    title: "Group Travel Budget: How to Plan and Split Expenses",
-    excerpt: "Planning a group trip? Learn how to budget effectively and split expenses fairly among travelers for a stress-free vacation.",
-    author: "Alex Rivera",
-    date: "February 28, 2024",
-    readTime: "6 min read",
-    category: "Travel",
-    image: "https://picsum.photos/seed/travel-budget/400/250",
-    slug: "group-travel-budget"
+    title: "Government Assistance for Education: CM Shri Yojana Gujarat",
+    excerpt: "CM Shri Yojana now provides scholarships up to ₹50,000 and coaching fee facilities for higher education of Gujarat students.",
+    author: "Priya Shah",
+    date: "March 18, 2024",
+    readTime: "5 min read",
+    category: "Education Scheme",
+    image: "https://picsum.photos/seed/cm-shri-yojana-education/400/250",
+    slug: "cm-shri-yojana-education",
+    likes: 31
   },
   {
     id: 5,
-    title: "Roommate Expenses: The Ultimate Guide to Fair Splitting",
-    excerpt: "Living with roommates? Master the art of splitting household bills, groceries, and shared expenses without conflicts.",
-    author: "Jordan Taylor",
-    date: "February 20, 2024",
-    readTime: "7 min read",
-    category: "Living",
-    image: "https://picsum.photos/seed/roommate-expenses/400/250",
-    slug: "roommate-expenses-guide"
+    title: "Employment Generation: CM Gatishakti Yojana Gujarat",
+    excerpt: "Gujarat government's Gatishakti Yojana for youth employment now provides ₹20,000 assistance and free training. Complete application process.",
+    author: "Rahul Singh",
+    date: "March 15, 2024",
+    readTime: "6 min read",
+    category: "Employment Scheme",
+    image: "https://picsum.photos/seed/cm-gatishakti-yojana/400/250",
+    slug: "cm-gatishakti-yojana-gujarat",
+    likes: 47
   },
   {
     id: 6,
-    title: "Digital Tools vs Traditional Methods for Bill Splitting",
-    excerpt: "Compare digital bill splitting tools with traditional methods like spreadsheets and manual calculations. Find the best approach for your group.",
-    author: "Sam Wilson",
-    date: "February 15, 2024",
+    title: "How to Split Bills Fairly: Complete Guide 2024",
+    excerpt: "Master the art of fair bill splitting with our comprehensive guide. Learn proven methods for group dinners, trips, and shared expenses to keep friendships strong.",
+    author: "Sarah Johnson",
+    date: "March 28, 2024",
+    readTime: "8 min read",
+    category: "Bill Splitting",
+    image: "https://picsum.photos/seed/bill-splitting-fair/400/250",
+    slug: "how-to-split-bills-fairly-guide",
+    likes: 63
+  },
+  {
+    id: 7,
+    title: "Ultimate Bill Calculator: Split Expenses Like a Pro",
+    excerpt: "Discover how our advanced bill calculator takes the stress out of group expenses. Features, tips, and tricks for perfect financial harmony.",
+    author: "Mike Chen",
+    date: "March 26, 2024",
+    readTime: "6 min read",
+    category: "Calculator Guide",
+    image: "https://picsum.photos/seed/bill-calculator-pro/400/250",
+    slug: "ultimate-bill-calculator-guide",
+    likes: 51
+  },
+  {
+    id: 8,
+    title: "Group Trip Budget Planning: Split Travel Costs Smartly",
+    excerpt: "Planning a group vacation? Learn how to budget, track, and split travel expenses fairly. From hotels to meals, we've got you covered.",
+    author: "Emily Rodriguez",
+    date: "March 24, 2024",
+    readTime: "7 min read",
+    category: "Travel Finance",
+    image: "https://picsum.photos/seed/group-travel-budget/400/250",
+    slug: "group-trip-budget-planning",
+    likes: 44
+  },
+  {
+    id: 9,
+    title: "Roommate Bill Splitting: Avoid Common Conflicts",
+    excerpt: "Living with roommates? Essential guide to splitting rent, utilities, and shared expenses without drama. Practical tips for peaceful cohabitation.",
+    author: "David Kim",
+    date: "March 22, 2024",
     readTime: "5 min read",
+    category: "Living Expenses",
+    image: "https://picsum.photos/seed/roommate-bills/400/250",
+    slug: "roommate-bill-splitting-guide",
+    likes: 58
+  },
+  {
+    id: 10,
+    title: "Digital vs Traditional: Modern Bill Splitting Methods",
+    excerpt: "Compare apps, spreadsheets, and manual methods for splitting bills. Find the best approach for your group's needs and preferences.",
+    author: "Lisa Thompson",
+    date: "March 20, 2024",
+    readTime: "6 min read",
     category: "Comparison",
-    image: "https://picsum.photos/seed/digital-traditional-splitting/400/250",
-    slug: "digital-vs-traditional-bill-splitting"
+    image: "https://picsum.photos/seed/digital-bill-splitting/400/250",
+    slug: "digital-traditional-bill-splitting",
+    likes: 36
+  },
+  {
+    id: 11,
+    title: "Restaurant Bill Splitting: Etiquette and Best Practices",
+    excerpt: "Dining out with groups? Master the etiquette of splitting restaurant bills fairly. From separate checks to shared appetizers, handle it like a pro.",
+    author: "James Wilson",
+    date: "March 18, 2024",
+    readTime: "4 min read",
+    category: "Dining Out",
+    image: "https://picsum.photos/seed/restaurant-bills/400/250",
+    slug: "restaurant-bill-splitting-etiquette",
+    likes: 29
   }
 ];
 
@@ -90,18 +156,18 @@ export default function BlogPage() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium mb-6">
             <TrendingUp className="w-4 h-4 mr-2" />
-            Blog & Resources
+            Blog & Government Schemes
           </div>
           
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 leading-tight">
-            Tips & Guides for
+            Government Schemes
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
-              {" "}Bill Splitting
+              {" "}Complete Information
             </span>
           </h1>
           
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-2xl mx-auto">
-            Learn the best practices, avoid common mistakes, and master the art of fair bill splitting in any situation.
+            Complete information about government schemes, bill splitting guides, and smart expense management tools for modern life.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -136,11 +202,11 @@ export default function BlogPage() {
                   </div>
                   
                   <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                    How to Split Bills Fairly: A Complete Guide
+                    PM Awas Yojana 2024: Government Housing Assistance
                   </h2>
                   
                   <p className="text-gray-600 dark:text-gray-300 mb-6">
-                    Learn the best practices for splitting bills in groups, from simple dinners to complex trips. Discover fair methods that keep everyone happy and avoid awkward money conversations.
+                    PM Awas Yojana now provides financial assistance up to ₹2.67 lakh for beneficiaries in Gujarat to build their dream homes. Learn how to apply and required documents.
                   </p>
                   
                   <div className="flex items-center justify-between">
@@ -149,8 +215,8 @@ export default function BlogPage() {
                         <User className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                       </div>
                       <div>
-                        <p className="font-medium text-gray-900 dark:text-white">Sarah Johnson</p>
-                        <p className="text-sm text-gray-600 dark:text-gray-300">March 15, 2024</p>
+                        <p className="font-medium text-gray-900 dark:text-white">Rajendra Patel</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">March 25, 2024</p>
                       </div>
                     </div>
                     
@@ -248,7 +314,7 @@ export default function BlogPage() {
               </h3>
               
               <p className="text-gray-600 dark:text-gray-300 mb-6">
-                Get the latest tips, guides, and updates about bill splitting delivered to your inbox.
+                Get latest updates, guides and benefits of government schemes directly in your inbox.
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">

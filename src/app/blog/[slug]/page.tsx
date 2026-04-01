@@ -108,6 +108,89 @@ Remember: the goal isn't just to split bills—it's to maintain relationships wh
     likes: 38,
     relatedPosts: [2, 3, 4]
   },
+  "how-to-split-bills-fairly-guide": {
+    id: 6,
+    title: "How to Split Bills Fairly: Complete Guide 2024",
+    excerpt: "Master the art of fair bill splitting with our comprehensive guide. Learn proven methods for group dinners, trips, and shared expenses to keep friendships strong.",
+    author: "Sarah Johnson",
+    date: "March 28, 2024",
+    readTime: "8 min read",
+    category: "Bill Splitting",
+    image: "https://picsum.photos/seed/bill-splitting-fair/800/400",
+    content: `
+# How to Split Bills Fairly: Complete Guide 2024
+
+Splitting bills can be one of the most awkward aspects of group activities. Whether you're dining out with friends, planning a group vacation, or managing household expenses with roommates, getting the math right is crucial for maintaining healthy relationships.
+
+## Why Fair Bill Splitting Matters
+
+Money has a unique way of complicating even the strongest friendships. When bills aren't split fairly, resentment can build up over time, leading to strained relationships and uncomfortable situations. Fair bill splitting isn't just about mathematics—it's about respect, transparency, and maintaining harmony in your social circles.
+
+## Common Bill Splitting Methods
+
+### 1. Equal Split (Simple Division)
+The most straightforward method where everyone pays the same amount, regardless of what they consumed.
+
+**Best for:**
+- Simple restaurant bills where everyone ordered similar items
+- Group activities with shared costs
+- Quick calculations
+
+**Example:** \$120 total bill ÷ 4 people = \$30 per person
+
+### 2. Proportional Split (Based on Consumption)
+Each person pays exactly what they consumed plus their share of shared costs.
+
+**Best for:**
+- Restaurant bills with varying orders
+- Shopping trips with different purchases
+- When fairness is more important than simplicity
+
+### 3. Income-Based Split
+People contribute based on their income levels, with higher earners paying more.
+
+**Best for:**
+- Long-term living situations
+- Groups with significant income disparities
+- When prioritizing equity over equality
+
+## Best Practices for Fair Bill Splitting
+
+### 1. Communicate Upfront
+Before any activity, discuss how you'll split expenses. This prevents misunderstandings later.
+
+### 2. Use Technology
+Leverage bill splitting apps and calculators to avoid manual errors and maintain transparency.
+
+### 3. Keep Receipts
+Always keep detailed receipts to reference when calculating splits.
+
+### 4. Be Flexible
+Sometimes perfect mathematical fairness isn't worth the friendship cost. Be willing to compromise.
+
+### 5. Settle Quickly
+Don't let debts linger. Settle up as soon as possible to avoid awkwardness.
+
+## Common Pitfalls to Avoid
+
+- **Forgetting shared costs:** Don't forget to include tax, tips, and shared items
+- **Ignoring dietary restrictions:** Account for different meal prices and restrictions
+- **Overcomplicating:** Sometimes simple is better
+- **Assuming:** Never assume someone's financial situation or preferences
+
+## Tools That Help
+
+Modern bill splitting tools can automate calculations and track debts over time. Our calculator, for instance, uses advanced algorithms to determine the minimal number of transactions needed to settle all debts fairly.
+
+## Conclusion
+
+Fair bill splitting is both an art and a science. While the math needs to be correct, the human element is equally important. By communicating clearly, using the right tools, and maintaining flexibility, you can ensure that group expenses bring you closer together rather than driving you apart.
+
+Remember: the goal isn't just to split bills—it's to maintain relationships while being fair to everyone involved.
+    `,
+    likes: 63,
+    relatedPosts: [7, 8, 9]
+  },
   "common-bill-splitting-mistakes": {
     id: 2,
     title: "5 Common Bill Splitting Mistakes to Avoid",
@@ -546,20 +629,20 @@ Remember: The goal is to enjoy the trip together, not to achieve perfect mathema
 
 Happy travels!
     `,
-    likes: 45,
-    relatedPosts: [1, 2, 5]
+    likes: 44,
+    relatedPosts: [6, 7, 9]
   },
-  "roommate-expenses-guide": {
-    id: 5,
-    title: "Roommate Expenses: The Ultimate Guide to Fair Splitting",
-    excerpt: "Living with roommates? Master the art of splitting household bills, groceries, and shared expenses without conflicts.",
-    author: "Jordan Taylor",
-    date: "February 20, 2024",
-    readTime: "7 min read",
-    category: "Living",
-    image: "https://picsum.photos/seed/roommate-expenses/800/400",
+  "roommate-bill-splitting-guide": {
+    id: 9,
+    title: "Roommate Bill Splitting: Avoid Common Conflicts",
+    excerpt: "Living with roommates? Essential guide to splitting rent, utilities, and shared expenses without drama. Practical tips for peaceful cohabitation.",
+    author: "David Kim",
+    date: "March 22, 2024",
+    readTime: "5 min read",
+    category: "Living Expenses",
+    image: "https://picsum.photos/seed/roommate-bills/800/400",
     content: `
-# Roommate Expenses: The Ultimate Guide to Fair Splitting
+# Roommate Bill Splitting: Avoid Common Conflicts
 
 Living with roommates can be an amazing way to save money and build lasting friendships—or it can be a nightmare of financial disputes and awkward conversations. The difference often comes down to how you handle shared expenses.
 
@@ -816,12 +899,12 @@ Custom tracking with Google Sheets or Excel:
 
 | Expense | Total | Person A | Person B | Person C | Split Method |
 |---------|-------|----------|----------|----------|-------------|
-| Rent | \$1800 | \$600 | \$600 | \$600 | Equal |
-| Electricity | \$120 | \$45 | \$35 | \$40 | Usage-based |
-| Internet | \$60 | \$20 | \$20 | \$20 | Equal |
-| Groceries | \$300 | \$100 | \$100 | \$100 | Equal |
-| Cleaning Supplies | \$40 | \$13.33 | \$13.33 | \$13.34 | Equal |
-| **Total** | **\$2320** | **\$778.33** | **\$768.33** | **\$773.34** | |
+| Rent | $1800 | $600 | $600 | $600 | Equal |
+| Electricity | $120 | $45 | $35 | $40 | Usage-based |
+| Internet | $60 | $20 | $20 | $20 | Equal |
+| Groceries | $300 | $100 | $100 | $100 | Equal |
+| Cleaning Supplies | $40 | $13.33 | $13.33 | $13.34 | Equal |
+| **Total** | **$2320** | **$778.33** | **$768.33** | **$773.34** | |
 
 ## Tips for Success
 
@@ -851,7 +934,7 @@ Choose the method that works for your specific situation, communicate openly, an
     relatedPosts: [1, 2, 4]
   },
   "digital-vs-traditional-bill-splitting": {
-    id: 6,
+    id: 10,
     title: "Digital Tools vs Traditional Methods for Bill Splitting",
     excerpt: "Compare digital bill splitting tools with traditional methods like spreadsheets and manual calculations. Find the best approach for your group.",
     author: "Sam Wilson",
@@ -1202,6 +1285,23 @@ export default function BlogPostPage({ params }: { params: Promise<{ slug: strin
   const resolvedParams = use(params);
   const slug = resolvedParams.slug;
   const post = blogPosts[slug as keyof typeof blogPosts];
+  
+  // Handle case where post doesn't exist
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 flex items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">Blog Post Not Found</h1>
+          <p className="text-gray-600 mb-8">The blog post you're looking for doesn't exist.</p>
+          <Link href="/blog">
+            <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+              Back to Blog
+            </Button>
+          </Link>
+        </div>
+      </div>
+    );
+  }
   
   // State for rating and interactions
   const [rating, setRating] = useState(0);
