@@ -106,7 +106,7 @@ Fair bill splitting is both an art and a science. While the math needs to be cor
 Remember: the goal isn't just to split bills—it's to maintain relationships while being fair to everyone involved.
     `, 
     likes: 38,
-    relatedPosts: [2, 3, 4]
+    relatedPosts: [2, 3, 6]
   },
   "how-to-split-bills-fairly-guide": {
     id: 6,
@@ -189,7 +189,7 @@ Fair bill splitting is both an art and a science. While the math needs to be cor
 Remember: the goal isn't just to split bills—it's to maintain relationships while being fair to everyone involved.
     `,
     likes: 63,
-    relatedPosts: [7, 8, 9]
+    relatedPosts: [1, 3, 9]
   },
   "common-bill-splitting-mistakes": {
     id: 2,
@@ -280,10 +280,10 @@ Many of these mistakes stem from:
 
 Avoiding these common mistakes isn't about being perfect—it's about being considerate and fair. Good bill splitting habits strengthen relationships rather than straining them. Remember, the goal is to enjoy time together without money stress getting in the way.
 
-By being mindful of these pitfalls and implementing better practices, you can ensure that group expenses bring you closer together rather than driving you apart.
+By being mindful of these pitfalls and implementing better practices, you can ensure that group expenses bring you closer together rather than driving them apart.
     `,
     likes: 56,
-    relatedPosts: [1, 5, 6]
+    relatedPosts: [3, 4, 9]
   },
   "mathematics-behind-bill-splitting": {
     id: 3,
@@ -430,7 +430,7 @@ Next time you use a bill splitting calculator, appreciate the mathematical machi
 Understanding these principles not only helps you trust the tools you use but also gives you insight into how mathematical thinking can solve everyday problems.
     `,
     likes: 72,
-    relatedPosts: [1, 2, 6]
+    relatedPosts: [1, 2, 9]
   },
   "group-travel-budget": {
     id: 4,
@@ -630,7 +630,7 @@ Remember: The goal is to enjoy the trip together, not to achieve perfect mathema
 Happy travels!
     `,
     likes: 44,
-    relatedPosts: [6, 7, 9]
+    relatedPosts: [1, 2, 6]
   },
   "roommate-bill-splitting-guide": {
     id: 9,
@@ -931,7 +931,7 @@ Remember, the goal is to live together peacefully, not to achieve perfect financ
 Choose the method that works for your specific situation, communicate openly, and be willing to adjust as needed. Your future self (and your roommates) will thank you.
     `,
     likes: 61,
-    relatedPosts: [1, 2, 4]
+    relatedPosts: [2, 3, 6]
   },
   "digital-vs-traditional-bill-splitting": {
     id: 10,
@@ -1277,7 +1277,7 @@ Remember, the goal is fair splitting and maintained relationships—not perfect 
 Choose what works for your group, be willing to adapt, and prioritize communication over tools. The technology should support your relationships, not complicate them.
     `,
     likes: 42,
-    relatedPosts: [1, 3, 5]
+    relatedPosts: [3, 4, 9]
   }
 };
 

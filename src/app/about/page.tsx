@@ -211,7 +211,7 @@ export default function AboutPage() {
                 </p>
                 <div className="space-y-4">
                   <p className="text-gray-600 dark:text-gray-300">
-                    <strong>Email:</strong> support@billsplit.com
+                    <strong>Email:</strong> support@nexybill.com
                   </p>
                   <p className="text-gray-600 dark:text-gray-300">
                     <strong>Response Time:</strong> Usually within 24 hours

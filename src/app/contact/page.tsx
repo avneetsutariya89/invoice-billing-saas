@@ -85,7 +85,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-white to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
@@ -98,33 +98,30 @@ export default function ContactPage() {
         <div className="container mx-auto px-4 py-6">
           <div className="flex items-center justify-between">
             <Link href="/" className="flex items-center text-blue-500 hover:text-blue-600 transition-colors group">
-              <div className="flex items-center px-4 py-2 rounded-lg hover:bg-blue-50 transition-colors">
-                <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
-                <span className="font-medium">Back to Home</span>
-              </div>
+              <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+              <span className="text-xl font-bold">NexyBill</span>
             </Link>
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center">
-                <Heart className="w-4 h-4 text-white" />
+              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                <Heart className="w-4 h-4 text-blue-500" />
               </div>
               <span className="text-xl font-bold text-blue-500">
-                BillSplit Pro
+                NexyBill
               </span>
             </div>
-            <div className="w-32"></div>
           </div>
         </div>
       </header>
 
       {/* Hero Section */}
-      <section className="relative z-10 py-20">
-        <div className="container mx-auto px-4 text-center">
-          <div className="inline-flex items-center px-6 py-3 rounded-full bg-white border border-blue-200 text-blue-500 text-sm font-semibold shadow-lg mb-8">
-            <Sparkles className="w-5 h-5 mr-2 text-blue-400" />
-            We're here to help you split bills happily!
+      <section className="relative z-10 py-20 px-4">
+        <div className="container mx-auto text-center">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-medium mb-6 animate-fade-in-up">
+            <HelpCircle className="w-4 h-4 mr-2" />
+            We're here to help!
           </div>
           
-          <h1 className="text-5xl sm:text-6xl font-bold text-gray-900 leading-tight mb-6 animate-fade-in-up">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 animate-fade-in-up">
             Get in
             <span className="block text-blue-500 mt-2 animate-fade-in-up animation-delay-200">
               Touch With Us
@@ -138,146 +135,115 @@ export default function ContactPage() {
 
           {/* Quick Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto mb-16 animate-fade-in-up animation-delay-600">
-            <div className="bg-white border border-blue-100 rounded-2xl p-6 text-center shadow-md hover:shadow-lg transform hover:-translate-y-2 transition-all duration-300">
-              <div className="text-4xl font-bold text-blue-500 mb-2">24/7</div>
-              <div className="text-gray-600">Support Available</div>
+            <div className="bg-white border border-blue-100 rounded-xl p-6 text-center shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <MessageSquare className="w-8 h-8 text-blue-600" />
+              </div>
+              <div className="text-2xl font-bold text-gray-800 mb-1">Quick Reply</div>
+              <div className="text-gray-600 text-sm">Fast responses</div>
             </div>
-            <div className="bg-white border border-blue-100 rounded-2xl p-6 text-center shadow-md hover:shadow-lg transform hover:-translate-y-2 transition-all duration-300">
-              <div className="text-4xl font-bold text-blue-500 mb-2">&lt;1hr</div>
-              <div className="text-gray-600">Response Time</div>
+            <div className="bg-white border border-blue-100 rounded-xl p-6 text-center shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Heart className="w-8 h-8 text-blue-600" />
+              </div>
+              <div className="text-2xl font-bold text-gray-800 mb-1">Friendly Help</div>
+              <div className="text-gray-600 text-sm">We care about you</div>
             </div>
-            <div className="bg-white border border-blue-100 rounded-2xl p-6 text-center shadow-md hover:shadow-lg transform hover:-translate-y-2 transition-all duration-300">
-              <div className="text-4xl font-bold text-blue-500 mb-2">98%</div>
-              <div className="text-gray-600">Happy Customers</div>
+            <div className="bg-white border border-blue-100 rounded-xl p-6 text-center shadow-md hover:shadow-lg transform hover:-translate-y-1 transition-all duration-300">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Zap className="w-8 h-8 text-blue-600" />
+              </div>
+              <div className="text-2xl font-bold text-gray-800 mb-1">Smart Solutions</div>
+              <div className="text-gray-600 text-sm">Easy bill splitting</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="relative z-10 pb-20">
+      <section className="relative z-10 py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <Card className="bg-white border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300">
+              <Card className="bg-white border border-blue-100 shadow-lg">
                 <CardContent className="p-8">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center mr-4">
-                      <MessageSquare className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-bold text-gray-900">
-                        Send us a Message
-                      </h2>
-                      <p className="text-gray-600">We'd love to hear from you!</p>
-                    </div>
+                  <div className="text-center mb-8">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                      Send us a Message
+                    </h2>
+                    <p className="text-gray-600">We'd love to hear from you!</p>
                   </div>
                   
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-6">
                       <div>
-                        <div className="relative">
-                          <Input
-                            id="name"
-                            name="name"
-                            type="text"
-                            placeholder=" "
-                            value={formData.name}
-                            onChange={handleChange}
-                            className="mt-2 border-blue-100 focus:border-blue-300 focus:ring-blue-300 peer"
-                            required
-                          />
-                          <Label htmlFor="name" className="absolute left-3 top-2 text-gray-500 transition-all duration-200 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500 bg-white px-1">
-                            <Heart className="w-4 h-4 mr-1 text-blue-400 inline" />
-                            Your Name
-                          </Label>
-                        </div>
+                        <Label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                          Your Name
+                        </Label>
+                        <Input
+                          id="name"
+                          name="name"
+                          type="text"
+                          placeholder="Enter your name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          className="w-full border-blue-100 focus:border-blue-300 focus:ring-blue-300"
+                          required
+                        />
                       </div>
                       
                       <div>
-                        <div className="relative">
-                          <Input
-                            id="email"
-                            name="email"
-                            type="email"
-                            placeholder=" "
-                            value={formData.email}
-                            onChange={handleChange}
-                            className="mt-2 border-blue-100 focus:border-blue-300 focus:ring-blue-300 peer"
-                            required
-                          />
-                          <Label htmlFor="email" className="absolute left-3 top-2 text-gray-500 transition-all duration-200 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500 bg-white px-1">
-                            <Mail className="w-4 h-4 mr-1 text-blue-400 inline" />
-                            Email Address
-                          </Label>
-                        </div>
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <div className="relative">
+                        <Label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                          Email Address
+                        </Label>
                         <Input
-                          id="subject"
-                          name="subject"
-                          type="text"
-                          placeholder=" "
-                          value={formData.subject}
+                          id="email"
+                          name="email"
+                          type="email"
+                          placeholder="Enter your email"
+                          value={formData.email}
                           onChange={handleChange}
-                          className="mt-2 border-blue-100 focus:border-blue-300 focus:ring-blue-300 peer"
+                          className="w-full border-blue-100 focus:border-blue-300 focus:ring-blue-300"
                           required
                         />
-                        <Label htmlFor="subject" className="absolute left-3 top-2 text-gray-500 transition-all duration-200 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500 bg-white px-1">
-                          <Star className="w-4 h-4 mr-1 text-blue-400 inline" />
-                          Subject
-                        </Label>
                       </div>
                     </div>
                     
                     <div>
-                      <div className="relative">
-                        <textarea
-                          id="message"
-                          name="message"
-                          rows={6}
-                          placeholder=" "
-                          value={formData.message}
-                          onChange={handleChange}
-                          className="mt-2 w-full px-4 py-3 border border-blue-100 rounded-lg bg-white text-gray-700 focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 peer resize-none"
-                          required
-                        />
-                        <Label htmlFor="message" className="absolute left-3 top-2 text-gray-500 transition-all duration-200 peer-placeholder-shown:top-3 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-focus:top-0 peer-focus:text-sm peer-focus:text-blue-500 bg-white px-1">
-                          <Coffee className="w-4 h-4 mr-1 text-blue-400 inline" />
-                          Message
-                        </Label>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center space-x-3 p-4 bg-blue-50 rounded-lg">
-                      <input
-                        type="checkbox"
-                        id="newsletter"
-                        name="newsletter"
-                        checked={formData.newsletter}
-                        onChange={handleChange}
-                        className="rounded border-blue-200 text-blue-500 focus:ring-blue-300 w-5 h-5"
-                      />
-                      <Label htmlFor="newsletter" className="text-gray-600 text-sm flex items-center">
-                        <Zap className="w-4 h-4 mr-2 text-blue-400" />
-                        Send me happy bill splitting tips and updates! 🎉
+                      <Label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                        Subject
                       </Label>
+                      <Input
+                        id="subject"
+                        name="subject"
+                        type="text"
+                        placeholder="Enter subject"
+                        value={formData.subject}
+                        onChange={handleChange}
+                        className="w-full border-blue-100 focus:border-blue-300 focus:ring-blue-300"
+                        required
+                      />
                     </div>
                     
-                    <Button
-                      type="submit"
-                      className="w-full bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white font-bold shadow-lg transform hover:scale-105 transition-all duration-300 relative overflow-hidden group"
-                      size="lg"
-                    >
-                      <span className="relative z-10 flex items-center">
-                        <Send className="mr-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                        Send Happy Message
-                      </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div>
+                      <Label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                        Message
+                      </Label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        rows={6}
+                        placeholder="Enter your message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 border border-blue-100 rounded-lg focus:ring-2 focus:ring-blue-300 focus:border-blue-300 transition-all duration-300 resize-none"
+                        required
+                      />
+                    </div>
+                    
+                    <Button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-medium transition-colors">
+                      Send Message
                     </Button>
                   </form>
                 </CardContent>
@@ -287,41 +253,36 @@ export default function ContactPage() {
             {/* Contact Information */}
             <div className="space-y-6">
               {/* Quick Contact */}
-              <Card className="bg-white border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300">
+              <Card className="bg-white border border-blue-100 shadow-lg">
                 <CardContent className="p-6">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center mr-4">
-                      <Phone className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900">
-                        Quick Contact
-                      </h3>
-                      <p className="text-gray-600">Reach out anytime!</p>
-                    </div>
+                  <div className="text-center mb-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      Quick Contact
+                    </h3>
+                    <p className="text-gray-600">Reach out anytime!</p>
                   </div>
                   
                   <div className="space-y-4">
-                    <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                    <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
                       <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                         <Mail className="w-5 h-5 text-blue-500" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Email</p>
                         <p className="font-medium text-gray-700">
-                          hello@billsplit.pro
+                          hello@nexybill.com
                         </p>
                       </div>
                     </div>
                     
-                    <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                    <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
                       <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                         <Clock className="w-5 h-5 text-blue-500" />
                       </div>
                       <div>
                         <p className="text-sm text-gray-600">Response Time</p>
                         <p className="font-medium text-gray-700">
-                          Super fast! ⚡
+                          Within 24 hours
                         </p>
                       </div>
                     </div>
@@ -330,36 +291,31 @@ export default function ContactPage() {
               </Card>
 
               {/* Social Links */}
-              <Card className="bg-white border border-blue-100 shadow-lg hover:shadow-xl transition-all duration-300">
+              <Card className="bg-white border border-blue-100 shadow-lg">
                 <CardContent className="p-6">
-                  <div className="flex items-center mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-500 rounded-full flex items-center justify-center mr-4">
-                      <Heart className="w-6 h-6 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-900">
-                        Follow Us
-                      </h3>
-                      <p className="text-gray-600">Stay connected!</p>
-                    </div>
+                  <div className="text-center mb-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">
+                      Follow Us
+                    </h3>
+                    <p className="text-gray-600">Stay connected!</p>
                   </div>
                   
                   <div className="grid grid-cols-2 gap-3">
-                    <a href="#" className="group flex items-center justify-center space-x-2 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-300 transform hover:scale-105">
-                      <Twitter className="w-5 h-5 text-blue-500 group-hover:rotate-12 transition-transform" />
-                      <span className="text-sm text-gray-600 group-hover:text-gray-700">Twitter</span>
+                    <a href="#" className="flex items-center justify-center space-x-2 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                      <Twitter className="w-5 h-5 text-blue-500" />
+                      <span className="text-sm text-gray-600">Twitter</span>
                     </a>
-                    <a href="#" className="group flex items-center justify-center space-x-2 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-300 transform hover:scale-105">
-                      <Facebook className="w-5 h-5 text-blue-500 group-hover:rotate-12 transition-transform" />
-                      <span className="text-sm text-gray-600 group-hover:text-gray-700">Facebook</span>
+                    <a href="#" className="flex items-center justify-center space-x-2 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                      <Facebook className="w-5 h-5 text-blue-500" />
+                      <span className="text-sm text-gray-600">Facebook</span>
                     </a>
-                    <a href="#" className="group flex items-center justify-center space-x-2 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-300 transform hover:scale-105">
-                      <Instagram className="w-5 h-5 text-blue-500 group-hover:rotate-12 transition-transform" />
-                      <span className="text-sm text-gray-600 group-hover:text-gray-700">Instagram</span>
+                    <a href="#" className="flex items-center justify-center space-x-2 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                      <Instagram className="w-5 h-5 text-blue-500" />
+                      <span className="text-sm text-gray-600">Instagram</span>
                     </a>
-                    <a href="#" className="group flex items-center justify-center space-x-2 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-all duration-300 transform hover:scale-105">
-                      <Linkedin className="w-5 h-5 text-blue-500 group-hover:rotate-12 transition-transform" />
-                      <span className="text-sm text-gray-600 group-hover:text-gray-700">LinkedIn</span>
+                    <a href="#" className="flex items-center justify-center space-x-2 p-3 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
+                      <Linkedin className="w-5 h-5 text-blue-500" />
+                      <span className="text-sm text-gray-600">LinkedIn</span>
                     </a>
                   </div>
                 </CardContent>
@@ -370,28 +326,24 @@ export default function ContactPage() {
       </section>
 
       {/* Footer CTA */}
-      <section className="relative z-10 py-16 bg-gradient-to-r from-blue-50 to-white">
+      <section className="py-16 bg-gradient-to-r from-blue-50 to-white">
         <div className="container mx-auto px-4 text-center">
-          <div className="inline-flex items-center px-6 py-3 rounded-full bg-white border border-blue-200 text-blue-500 text-sm font-semibold shadow-lg mb-6">
-            <CheckCircle className="w-5 h-5 mr-2 text-blue-400" />
-            We're committed to helping you!
-          </div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4">
             Still have questions?
           </h2>
-          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
             Our friendly support team is always here to help you split bills happily and stress-free!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/calculator">
-              <Button className="bg-gradient-to-r from-blue-400 to-blue-500 hover:from-blue-500 hover:to-blue-600 text-white px-8 py-4 rounded-xl font-bold shadow-lg transform hover:scale-105 transition-all duration-300">
-                <Calculator className="mr-3 h-5 w-5" />
+              <Button className="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-lg font-medium transition-colors">
+                <Calculator className="mr-2 h-5 w-5" />
                 Try Calculator Now
               </Button>
             </Link>
-            <Link href="mailto:hello@billsplit.pro">
-              <Button variant="outline" className="bg-white text-blue-500 border-2 border-blue-200 hover:bg-blue-50 hover:border-blue-300 px-8 py-4 rounded-xl font-semibold shadow-lg transform hover:scale-105 transition-all duration-300">
-                <Mail className="mr-3 h-5 w-5" />
+            <Link href="mailto:hello@nexybill.com">
+              <Button variant="outline" className="border-blue-200 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-medium transition-colors">
+                <Mail className="mr-2 h-5 w-5" />
                 Email Us Directly
               </Button>
             </Link>
