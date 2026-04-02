@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import {
   Calendar,
   User,
@@ -175,21 +175,19 @@ const faqData = [
   }
 ];
 
-export default function BlogPage() {
+const BlogPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
-  const [filteredPosts, setFilteredPosts] = useState(blogPosts);
   const [animateStats, setAnimateStats] = useState(false);
 
-  useEffect(() => {
-    const filtered = blogPosts.filter(post => {
+  const filteredPosts = useMemo(() => {
+    return blogPosts.filter(post => {
       const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
                            post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
       const matchesCategory = selectedCategory === "All" || post.category === selectedCategory;
       return matchesSearch && matchesCategory;
     });
-    setFilteredPosts(filtered);
   }, [searchTerm, selectedCategory]);
 
   useEffect(() => {
@@ -198,9 +196,9 @@ export default function BlogPage() {
 
   const categories = ["All", "Government Scheme", "Bill Splitting", "Calculator Guide", "Travel Finance", "Living Expenses", "Women Empowerment", "Education Scheme", "Employment Scheme", "Agriculture Scheme"];
 
-  const toggleFaq = (index: number) => {
+  const toggleFaq = useCallback((index: number) => {
     setExpandedFaq(expandedFaq === index ? null : index);
-  };
+  }, [expandedFaq]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white relative overflow-hidden">
@@ -432,6 +430,8 @@ export default function BlogPage() {
                       fill
                       className="object-cover"
                       sizes="(max-width: 768px) 100vw, 50vw"
+                      priority={true}
+                      loading="eager"
                     />
                   </div>
                 </div>
@@ -458,6 +458,7 @@ export default function BlogPage() {
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      loading="lazy"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
@@ -663,48 +664,9 @@ export default function BlogPage() {
             </div>
           </div>
         </section>
-
-              </div>
-
-      <style jsx>{`
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .animate-fade-in-up {
-          animation: fade-in-up 0.8s ease-out forwards;
-        }
-        
-        .animation-delay-200 {
-          animation-delay: 200ms;
-        }
-        
-        .animation-delay-400 {
-          animation-delay: 400ms;
-        }
-        
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        
-        .line-clamp-3 {
-          display: -webkit-box;
-          -webkit-line-clamp: 3;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-      `}</style>
+      </div>
     </div>
   );
-}
+};
+
+export default BlogPage;
